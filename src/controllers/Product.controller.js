@@ -86,8 +86,9 @@ const addProduct = async (req, res) => {
                 message: 'Vui lòng cung cấp đầy đủ thông tin hợp lệ, bao gồm ít nhất một ảnh và một size hợp lệ.',
             });
             return;
-        } // Generate a unique product_id
-        const product_id = await generateProductId();
+        }
+        // Generate a unique product_id
+        const product_id = generateProductId();
         // Create a new product
         const newProduct = new Product_model_1.default({
             product_id,
@@ -520,10 +521,7 @@ const getBestSellingProduct = async (req, res) => {
             acc[p.category].value += p.sold;
             return acc;
         }, {});
-        // Filter out categories with zero value before sorting
-        const categoryData = Object.values(categoryStats)
-            .filter((category) => category.value > 0)
-            .sort((a, b) => b.value - a.value);
+        const categoryData = Object.values(categoryStats).sort((a, b) => b.value - a.value);
         const summary = {
             totalProducts: products.length,
             totalSold: enrichedProducts.reduce((sum, p) => sum + p.sold, 0),

@@ -137,8 +137,10 @@ export const addProduct = async (
                     'Vui lòng cung cấp đầy đủ thông tin hợp lệ, bao gồm ít nhất một ảnh và một size hợp lệ.',
             });
             return;
-        } // Generate a unique product_id
-        const product_id = await generateProductId();
+        }
+
+        // Generate a unique product_id
+        const product_id = generateProductId();
 
         // Create a new product
         const newProduct = new Product({
@@ -695,6 +697,7 @@ export const getBestSellingProduct = async (
         );
 
         enrichedProducts.sort((a, b) => b.sold - a.sold);
+
         const categoryStats = enrichedProducts.reduce(
             (acc: Record<string, CategoryStat>, p: BestSellingProduct) => {
                 if (!acc[p.category]) {
@@ -705,10 +708,9 @@ export const getBestSellingProduct = async (
             },
             {},
         );
-        // Filter out categories with zero value before sorting
-        const categoryData = Object.values(categoryStats)
-            .filter((category) => category.value > 0)
-            .sort((a, b) => b.value - a.value);
+        const categoryData = Object.values(categoryStats).sort(
+            (a, b) => b.value - a.value,
+        );
 
         const summary: SummaryStats = {
             totalProducts: products.length,

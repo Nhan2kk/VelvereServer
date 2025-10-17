@@ -53,8 +53,8 @@ app.use((0, express_session_1.default)({
     saveUninitialized: false,
     store: connect_mongo_1.default.create({
         mongoUrl: MONGO_URI,
-        ttl: 24 * 60 * 60, // Thời gian sống của session: 1 ngày (tính bằng giây)
-        autoRemove: 'native', // Tự động xóa session hết hạn
+        ttl: 24 * 60 * 60,                                  // Thời gian sống của session: 1 ngày (tính bằng giây)
+        autoRemove: 'native',                               // Tự động xóa session hết hạn
     }),
     cookie: {
         httpOnly: true, // Không cho phép JavaScript truy cập cookie
@@ -84,6 +84,6 @@ err, req, res, next) => {
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`✅ Server running at http://localhost:${PORT}`);
+    console.log(`✅ Server running at port ${PORT}`);
 });
 exports.default = app;
